@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karina</title>
+<meta name="description" content="Karina, photographe de mariage. Capturing Love Stories.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23000000%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2270%22%20font-family%3D%22Georgia%2C%20%27Times%20New%20Roman%27%2C%20serif%22%20font-size%3D%2262%22%20font-weight%3D%22400%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%3EK%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Pinyon+Script&family=Viaoda+Libre&display=swap" rel="stylesheet">
+
+<style>
+  /* ==========================================================
+     RESET & VARIABLES
+  ========================================================== */
+  :root {
+    --black: #000000;
+    --white: #ffffff;
+    --gray-1: #1a1a1a;
+    --gray-2: #2b2b2b;
+    --gray-3: #3f3f3f;
+    --font-display: 'Viaoda Libre', serif;
+    --font-script: 'Pinyon Script', cursive;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  /* ==========================================================
+     ANIMATIONS — fondu discret à l'entrée
+  ========================================================== */
+  .load-in {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeRiseIn 1s ease forwards;
+  }
+
+  .load-in-d1 {
+    animation-delay: 0.15s;
+  }
+
+  .load-in-d2 {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes fadeRiseIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .load-in {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ==========================================================
+     NAVBAR — minimaliste, texte blanc, sans arrière-plan
+  ========================================================== */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: transparent;
+    padding: 1.75rem 2rem;
+  }
+
+  .navbar nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .navbar nav a {
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--white);
+    position: relative;
+    padding-bottom: 4px;
+  }
+
+  .navbar nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background: var(--white);
+    transition: width 0.3s ease;
+  }
+
+  .navbar nav a:hover::after,
+  .navbar nav a:focus::after,
+  .navbar nav a.active::after {
+    width: 100%;
+  }
+
+  /* ==========================================================
+     HERO — plein écran, image de fond + calque sombre
+  ========================================================== */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    /* Emplacement réservé pour l'image de fond.
+       Remplacer par : background-image: url('votre-image.jpg'); */
+    background-image:
+      linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%),
+      repeating-linear-gradient(135deg, var(--gray-2) 0px, var(--gray-2) 2px, var(--gray-1) 2px, var(--gray-1) 4px);
+    background-color: var(--gray-1);
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(100%);
+  }
+
+  /* Calque sombre superposé à l'image */
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 1.5rem;
+  }
+
+  .hero-name {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(3.5rem, 12vw, 8rem);
+    color: var(--white);
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+
+  .hero-tagline {
+    font-family: var(--font-script);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.6rem, 5vw, 2.75rem);
+    color: var(--white);
+    margin-top: 0.75rem;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--white);
+    opacity: 0.7;
+  }
+
+  /* ==========================================================
+     INTRO — bref paragraphe, DM Sans
+  ========================================================== */
+  .intro {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 6rem 1.5rem 4rem;
+    text-align: center;
+  }
+
+  .intro p {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.9;
+    color: var(--white);
+    opacity: 0.85;
+  }
+
+  /* ==========================================================
+     GALERIE D'APERÇU — 3 vignettes, désaturées
+  ========================================================== */
+  .gallery {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem 6rem;
+    text-align: center;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .gallery-item {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background-color: var(--gray-1);
+  }
+
+  .gallery-item .gallery-placeholder {
+    width: 100%;
+    height: 100%;
+
+    /* Emplacement réservé pour une photo de galerie.
+       Remplacer par : background-image: url('votre-photo.jpg'); */
+    background-image: linear-gradient(160deg, var(--gray-3) 0%, var(--gray-1) 100%);
+    background-size: cover;
+    background-position: center;
+
+    /* Désaturation forcée en niveaux de gris, quelle que soit l'image utilisée */
+    filter: grayscale(100%) contrast(1.05);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
+  .gallery-item:hover .gallery-placeholder {
+    transform: scale(1.04);
+    opacity: 0.9;
+  }
+
+  /* ==========================================================
+     À PROPOS & CONTACT — sections minimalistes (ancres nav)
+  ========================================================== */
+  .section {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .section h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin-bottom: 1.25rem;
+  }
+
+  .section p {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.9;
+    opacity: 0.85;
+  }
+
+  .cta-link,
+  .section a.contact-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--white);
+    padding-bottom: 2px;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+  }
+
+  .cta-link:hover,
+  .section a.contact-link:hover {
+    opacity: 1;
+  }
+
+  /* ==========================================================
+     FOOTER
+  ========================================================== */
+  footer {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    font-family: var(--font-body);
+  }
+
+  .footer-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-nav a {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 0.3s ease;
+  }
+
+  .footer-nav a:hover {
+    color: var(--white);
+  }
+
+  footer p {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 1.25rem;
+  }
+
+  /* ==========================================================
+     RETOUR EN HAUT — cercle blanc, coin inférieur droit
+  ========================================================== */
+  .back-to-top {
+    position: fixed;
+    right: 1.75rem;
+    bottom: 1.75rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1px solid var(--white);
+    color: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease,
+      background-color 0.3s ease, color 0.3s ease;
+    z-index: 90;
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .back-to-top:hover,
+  .back-to-top:focus-visible {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .back-to-top svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ==========================================================
+     RESPONSIVE — MOBILE
+  ========================================================== */
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 1.25rem 1rem;
+    }
+
+    .navbar nav ul {
+      gap: 1.1rem;
+    }
+
+    .navbar nav a {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+    }
+
+    .gallery {
+      padding: 0 1.25rem 4rem;
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .intro {
+      padding: 4.5rem 1.25rem 3rem;
+    }
+
+    .section {
+      padding: 3.5rem 1.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .navbar nav ul {
+      flex-wrap: wrap;
+      row-gap: 0.5rem;
+    }
+
+    .back-to-top {
+      right: 1.1rem;
+      bottom: 1.1rem;
+      width: 2.6rem;
+      height: 2.6rem;
+    }
+
+    .hero-name {
+      font-size: 3.2rem;
+    }
+
+    .hero-tagline {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <header class="navbar">
+    <nav aria-label="Navigation principale">
+      <ul>
+        <li><a href="#accueil" class="active">Accueil</a></li>
+        <li><a href="gallery.html">Galerie</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="accueil">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-name load-in">Karina</h1>
+      <p class="hero-tagline load-in load-in-d1">Capturing Love Stories</p>
+    </div>
+    <span class="hero-scroll">Découvrir</span>
+  </section>
+
+  <!-- INTRODUCTION -->
+  <section class="intro reveal">
+    <p>
+      Photographe de mariage, je capture l'émotion brute et la beauté discrète
+      de vos instants les plus précieux — entre élégance intemporelle et
+      regard sincère, chaque image raconte votre histoire.
+    </p>
+  </section>
+
+  <!-- GALERIE D'APERÇU -->
+  <section class="gallery reveal" id="galerie" aria-label="Aperçu de la galerie">
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Photo 01</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Photo 02</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Photo 03</div>
+      </div>
+    </div>
+    <a class="cta-link" href="gallery.html">Voir toute la galerie</a>
+  </section>
+
+  <!-- À PROPOS -->
+  <section class="section reveal" id="apropos">
+    <h2>À propos</h2>
+    <p>
+      Basée en Belgique, je photographie des mariages avec authenticité et
+      délicatesse, en noir et blanc comme en couleur, toujours au service
+      de votre histoire.
+    </p>
+    <a class="cta-link" href="about.html">En savoir plus</a>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section reveal" id="contact">
+    <h2>Contact</h2>
+    <p>Disponible pour vos mariages en Belgique et à l'étranger.</p>
+    <a class="cta-link" href="contact.html">Aller au formulaire de contact</a>
+  </section>
+
+  <footer>
+    <nav class="footer-nav" aria-label="Navigation de pied de page">
+      <a href="#accueil">Accueil</a>
+      <a href="gallery.html">Galerie</a>
+      <a href="about.html">À propos</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <p>&copy; 2026 Karina Photographie — Tous droits réservés</p>
+  </footer>
+
+  <!-- RETOUR EN HAUT -->
+  <button id="backToTop" class="back-to-top" aria-label="Retour en haut de la page">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <line x1="12" y1="19" x2="12" y2="5"></line>
+      <polyline points="5 12 12 5 19 12"></polyline>
+    </svg>
+  </button>
+
+  <script>
+    (function () {
+      var reveals = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        var revealObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15, rootMargin: "0px 0px -10% 0px" });
+        reveals.forEach(function (el) { revealObserver.observe(el); });
+      } else {
+        reveals.forEach(function (el) { el.classList.add("is-visible"); });
+      }
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var backToTop = document.getElementById("backToTop");
+      if (!backToTop) return;
+
+      function toggleBackToTop() {
+        if (window.scrollY > 400) {
+          backToTop.classList.add("visible");
+        } else {
+          backToTop.classList.remove("visible");
+        }
+      }
+
+      window.addEventListener("scroll", toggleBackToTop, { passive: true });
+      toggleBackToTop();
+
+      backToTop.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    })();
+  </script>
+
+</body>
+</html>
